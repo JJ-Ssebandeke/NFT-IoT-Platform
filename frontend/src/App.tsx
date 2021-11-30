@@ -1,10 +1,13 @@
-import React from 'react'
+import React, { Children } from 'react'
 import {hot} from 'react-hot-loader'
 import "./App.css"
 import { useRoutes, Link } from 'react-router-dom'
 import { AdminHub } from './components/AdminHub'
 import { ClientPortal } from './components/ClientPortal'
 import { EntryPoint } from './components/EntryPoint'
+import { BlockExplorer } from './components/BlockExplorer'
+import { DeviceConfig } from './components/DeviceConfig'
+import { DeviceAnalytics } from './components/DeviceAnalytics'
 
 
 const App: React.FC = () => {
@@ -16,7 +19,12 @@ const App: React.FC = () => {
     
     const adminRoutes = {
         path: 'Network-Overview',
-        element: <AdminHub />
+        element: <AdminHub />,
+        children: [
+            {path: 'Dashboard', element: <BlockExplorer />},
+            {path: 'Device-Registration', element: <DeviceConfig /> },
+            {path: 'Device-Analytics', element: <DeviceAnalytics />}
+        ]
     }
     
     const clientRoutes = {

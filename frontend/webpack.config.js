@@ -37,6 +37,10 @@ module.exports = {
         port: 7000,
         hot: true,
         open: true,
+        historyApiFallback: true,
+        static:{
+            publicPath: '/'
+        }
     },
     devtool: 'inline-source-map'
 
