@@ -19,7 +19,7 @@ const AdminHubContainer = styled.div`
 
 `
 
-export const AdminHub: React.FC = () => {
+export const AdminHub = (): JSX.Element => {
     return (
         <AdminHubContainer>
           <Navbar />

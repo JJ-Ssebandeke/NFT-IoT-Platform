@@ -4,7 +4,7 @@ import { Card } from './globalStyles'
 
 const AnalyticsContainer = styled.div`
     display: grid;
-    margin-left: 5%;
+    margin-left: 2.5%;
     grid-template:  100% / 20% 80%;
     height: 100%;
     width: 100%;
@@ -27,19 +27,19 @@ const LoanHistoryContainer = styled.div`
 `
 
 
-export const DeviceAnalytics: React.FC = () => {
+export const DeviceAnalytics = (): JSX.Element => {
     return (
         <>
          <AnalyticsContainer>
              <DeviceInfoContainer>
                  <Card>
-
+                   <p>Registered</p>
                  </Card>
                  <Card>
-
+                    <p>Loaned</p>
                  </Card>
                  <Card>
-
+                    <p>Overdue</p>
                  </Card>
 
              </DeviceInfoContainer>

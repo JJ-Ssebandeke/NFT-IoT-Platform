@@ -27,7 +27,7 @@ const NavContainerTop = styled.div`
     }
 `
 
-export const Navbar: React.FC = () => {
+export const Navbar = (): JSX.Element => {
     const location = useLocation();
 
     return (
@@ -37,7 +37,6 @@ export const Navbar: React.FC = () => {
               <ul className= "nav-items">
                  <li> Network Peers: 8 </li>
                  <li> Latest Block: 10 </li>
-                 <li> Time stamp: 20 </li>
               </ul>
          </NavContainerTop>    
             

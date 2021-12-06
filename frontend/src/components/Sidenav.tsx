@@ -18,14 +18,14 @@ const SideNavContainer = styled.div`
      
      
 `
-export const Sidenav: React.FC  = () => {
+export const Sidenav = (): JSX.Element => {
     return (
         <>
           <SideNavContainer>
                   <p className='logo'> L </p>
-                  <Link to="Dashboard"> H </Link> 
-                  <Link to="Device-Registration"> B </Link>
-                  <Link to="Device-Analytics"> R </Link>
+                  <Link to="Network"> H </Link> 
+                  <Link to="Registration"> B </Link>
+                  <Link to="Analytics"> R </Link>
                   <Link to="/"> M </Link>
              </SideNavContainer>
             

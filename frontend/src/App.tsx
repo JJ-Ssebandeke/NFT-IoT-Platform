@@ -10,7 +10,7 @@ import { DeviceConfig } from './components/DeviceConfig'
 import { DeviceAnalytics } from './components/DeviceAnalytics'
 
 
-const App: React.FC = () => {
+const App = (): JSX.Element => {
     
     const homeRoute = {
         path: '/',
@@ -21,9 +21,9 @@ const App: React.FC = () => {
         path: 'Network-Overview',
         element: <AdminHub />,
         children: [
-            {path: 'Dashboard', element: <BlockExplorer />},
-            {path: 'Device-Registration', element: <DeviceConfig /> },
-            {path: 'Device-Analytics', element: <DeviceAnalytics />}
+            {path: 'Network', element: <BlockExplorer />},
+            {path: 'Registration', element: <DeviceConfig /> },
+            {path: 'Analytics', element: <DeviceAnalytics />}
         ]
     }
     
