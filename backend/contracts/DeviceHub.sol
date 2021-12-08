@@ -5,21 +5,23 @@ pragma solidity ^0.8.0;
 /**
  * Manage the creation and storage of devices.
  */
+
 contract DeviceHub {
 
 
-/**
-   * Device ownership lifecycle
-*/
-  enum OwnershipState{STASHED, LOANED}
+
+    // Device ownership lifecycle
+    enum OwnershipState{STASHED, LOANED}
 
     address private admin;
    
     event DeviceRegistered(address _newDevice, string _ID);
-    event DevicesLoaned(address _to,string _deviceID, uint date);
+    event DeviceLoaned(address _to,string _deviceID, uint date);
     event PaymentCollected(uint _value);
-    event LoanRedeemed(address _holder, uint _Id, uint amountSent);
-    uint256 private  LATE_FEE;
+    event DeviceReturned(address _holder, uint _Id);
+    event PenaltyIncurred(uint _amount);
+
+    uint256 private LATE_FEE;
   
     struct Device {
         string  deviceID;
@@ -32,10 +34,7 @@ contract DeviceHub {
         uint loanPeriod;    
     }
 
-    /**
-   * Device storage
-   */
-
+    // Device storage
     Device[] private deviceStash;
 
     constructor() payable {
@@ -50,17 +49,14 @@ contract DeviceHub {
     // Fallback function is called when msg.data is not empty
     fallback() external payable {}
 
-    function registerDevice(string memory _devID, string memory _url, address _devAddress) public {
-        
+    function registerDevice(string memory _devID, string memory _url, address _devAddress) external {
         uint eth = 0;
         uint tagID = 0;
         OwnershipState status = OwnershipState.STASHED;
         Device memory newDevice = Device( _devID,_url,_devAddress,admin, eth, tagID, status,0);
         deviceStash.push(newDevice);
         emit DeviceRegistered(newDevice.deviceAddress,newDevice.deviceID);
-
     }
-    
 
     function getDeviceCount() public view returns(uint count){
         return deviceStash.length;
@@ -71,56 +67,56 @@ contract DeviceHub {
         Device storage grabDevice = deviceStash[_index];
         return grabDevice;
     }
-
-     /**
-   * Process a device Loan request. 
-   *
-   * This function will, update the device properties for the devices stored in the contract.
-   *                            
-   */
+ 
+    // function to update the device properties for the devices stored in the contract.
     function requestDeviceLoan(uint amount, uint _id, uint loanDuration) external {
-          for(uint8 j = 0; j < getDeviceCount(); j++){
+          for(uint j = 0; j < getDeviceCount(); j++){
                 Device storage _device = getStashedDevice(j);
                 if(_device.state == OwnershipState.STASHED){
+
                     setDeviceSatus(_device, OwnershipState.LOANED ,amount ,msg.sender, _id, loanDuration);
-                    emit DevicesLoaned(msg.sender, _device.deviceID, block.timestamp);
+                    emit DeviceLoaned(msg.sender, _device.deviceID, block.timestamp);
                     break;
                 }
           }
     }
+    // function to update the device properties for the devices stored in the contract.
     function redeemDeviceLoan(address loaneeAddress) external returns(uint _tokenId) {
           uint _tag = 0;
-          for(uint8 j = 0; j < getDeviceCount(); j++){
+
+          for(uint j = 0; j < getDeviceCount(); j++){
                 Device storage _device = getStashedDevice(j);
                 if(_device.deviceOwner == loaneeAddress && _device.loanPeriod >= block.timestamp){
                     
-                    emit LoanRedeemed(loaneeAddress,_device.tagId, _device.collateral);
-                    
+                    emit DeviceReturned(loaneeAddress,_device.tagId);
                     if(_tag == 0){
                         _tag = _device.tagId;
                     }
 
                     (bool sent, bytes memory data) = loaneeAddress.call{value: _device.collateral}("");
                     require(sent, "Failed to send Ether");
-                    setDeviceSatus(_device, OwnershipState.STASHED, 0, admin, 0,0);      
+
+                    setDeviceSatus(_device, OwnershipState.STASHED, 0, admin, 0,0); 
+                    emit DeviceReturned(loaneeAddress,_device.tagId);     
                     break;
                 }
                 if(_device.deviceOwner == loaneeAddress && block.timestamp >= (_device.loanPeriod + 3600)){
                     uint penalty = _device.collateral - LATE_FEE;
-                    emit LoanRedeemed(loaneeAddress,_device.tagId, penalty);
 
+                    emit PenaltyIncurred(penalty);
                     if(_tag == 0){
                         _tag = _device.tagId;
                     }
 
                     (bool sent, bytes memory data) = loaneeAddress.call{value: penalty}("");
                     require(sent, "Failed to send Ether");
-                    setDeviceSatus(_device, OwnershipState.STASHED, 0, admin, 0,0);      
-                    break;
 
+                    setDeviceSatus(_device, OwnershipState.STASHED, 0, admin, 0,0); 
+                    emit DeviceReturned(loaneeAddress,_device.tagId);     
+                    break;
                 }
             }
-            return _tag;
+        return _tag;
     }
 
 
