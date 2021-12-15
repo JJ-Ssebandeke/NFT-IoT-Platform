@@ -8,8 +8,6 @@ pragma solidity ^0.8.0;
 
 contract DeviceHub {
 
-
-
     // Device ownership lifecycle
     enum OwnershipState{STASHED, LOANED}
 
@@ -129,9 +127,7 @@ contract DeviceHub {
          _d.loanPeriod = duration;
         
     }
-
-
-       
+  
   
 }
 
