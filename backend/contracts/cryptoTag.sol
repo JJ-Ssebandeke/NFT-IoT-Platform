@@ -4,7 +4,7 @@ import "../node_modules/@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "../node_modules/@openzeppelin/contracts/utils/Counters.sol";
 import "../contracts/DeviceHub.sol";
 
-contract cryptoTagDispensary is ERC721 {
+contract DigitalTag is ERC721 {
 
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
