@@ -1,17 +1,18 @@
-use juniper::{graphql_object, Context, EmptyMutation, EmptySubscription, RootNode,};
+mod devices;
+mod blocks;
+mod client;
+mod admin;
 
-pub struct Query;
+use async_graphql::*;
+#[derive(MergedObject, Default)]
+pub struct Query(devices::DeviceQuery);
+#[derive(MergedObject, Default)]
+pub struct Mutation(client::ClientMutation, admin::AdminMutation);
+#[derive(MergedSubscription, Default)]
+pub struct Subscription(blocks::BlockSubsription);
 
-//#[graphql_object]
-impl Query {
-    
-}
-
-pub fn bulid_schema() -> RootNode<> {
-    let schema = RootNode::new(
-        Query,
-        EmptyMutation::<()>::new(),
-        EmptySubscription::<()>::new(),
-    );
-    schema
+//build schema
+pub fn build_schema() -> SchemaBuilder<Query,Mutation,Subscription> {
+      
+    Schema::build(Query::default(), Mutation::default(), Subscription::default())
 }
