@@ -6,20 +6,17 @@ use rocket::{response::content, State};
 
 pub type DappSchema = Schema<Query, Mutation, Subscription>;
 
-#[rocket::get("/")]
+#[get("/")]
 pub fn graphql_playground() -> content::Html<String> {
     content::Html(playground_source(GraphQLPlaygroundConfig::new("/graphql")))
 }
 
-#[rocket::get("/graphql?<query..>")]
+#[get("/graphql?<query..>")]
 async fn graphql_query(schema: &State<DappSchema>, query: GraphQLQuery) -> GraphQLResponse {
     query.execute(schema).await
 }
 
-#[rocket::post("/graphql", data = "<request>", format = "application/json")]
-async fn graphql_request(
-    schema: &State<DappSchema>,
-    request: GraphQLRequest,
-) -> GraphQLResponse {
+#[post("/graphql", data = "<request>", format = "application/json")]
+async fn graphql_request(schema: &State<DappSchema>, request: GraphQLRequest) -> GraphQLResponse {
     request.execute(schema).await
 }
