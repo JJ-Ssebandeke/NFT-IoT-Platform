@@ -1,0 +1,227 @@
+[
+    {
+      "inputs": [],
+      "stateMutability": "payable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "_to",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "_deviceID",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "date",
+          "type": "uint256"
+        }
+      ],
+      "name": "DeviceLoaned",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "_newDevice",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "_ID",
+          "type": "string"
+        }
+      ],
+      "name": "DeviceRegistered",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "_holder",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "_Id",
+          "type": "string"
+        }
+      ],
+      "name": "DeviceReturned",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_value",
+          "type": "uint256"
+        }
+      ],
+      "name": "PaymentCollected",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "PenaltyIncurred",
+      "type": "event"
+    },
+    {
+      "stateMutability": "payable",
+      "type": "fallback"
+    },
+    {
+      "stateMutability": "payable",
+      "type": "receive"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "_devID",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "_url",
+          "type": "string"
+        },
+        {
+          "internalType": "address",
+          "name": "_devAddress",
+          "type": "address"
+        }
+      ],
+      "name": "registerDevice",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getDeviceCount",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "count",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_index",
+          "type": "uint256"
+        }
+      ],
+      "name": "getStashedDevice",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "string",
+              "name": "deviceID",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "deviceURL",
+              "type": "string"
+            },
+            {
+              "internalType": "address",
+              "name": "deviceAddress",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "deviceOwner",
+              "type": "address"
+            },
+            {
+              "internalType": "uint256",
+              "name": "collateral",
+              "type": "uint256"
+            },
+            {
+              "internalType": "enum DeviceHub.OwnershipState",
+              "name": "state",
+              "type": "uint8"
+            },
+            {
+              "internalType": "uint256",
+              "name": "loanPeriod",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct DeviceHub.Device",
+          "name": "_registeredDevice",
+          "type": "tuple"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "loanDuration",
+          "type": "uint256"
+        }
+      ],
+      "name": "requestDeviceLoan",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "loaneeAddress",
+          "type": "address"
+        }
+      ],
+      "name": "redeemDeviceLoan",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+]

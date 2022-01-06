@@ -12,11 +12,11 @@ pub fn graphql_playground() -> content::Html<String> {
 }
 
 #[get("/graphql?<query..>")]
-async fn graphql_query(schema: &State<DappSchema>, query: GraphQLQuery) -> GraphQLResponse {
+pub async fn graphql_query(schema: &State<DappSchema>, query: GraphQLQuery) -> GraphQLResponse {
     query.execute(schema).await
 }
 
 #[post("/graphql", data = "<request>", format = "application/json")]
-async fn graphql_request(schema: &State<DappSchema>, request: GraphQLRequest) -> GraphQLResponse {
+pub async fn graphql_request(schema: &State<DappSchema>, request: GraphQLRequest) -> GraphQLResponse {
     request.execute(schema).await
 }

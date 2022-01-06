@@ -749,12 +749,12 @@ dependencies = [
  "async-graphql",
  "async-graphql-rocket",
  "futures",
+ "hex",
  "hex-literal",
  "rocket",
  "serde",
  "serde_json",
  "tokio",
- "tokio-serde",
  "tokio-stream",
  "web3",
 ]
@@ -2232,18 +2232,6 @@ checksum = "f7d995660bd2b7f8c1568414c1126076c13fbb725c40112dc0120b78eb9b717b"
 dependencies = [
  "native-tls",
  "tokio",
-]
-
-[[package]]
-name = "tokio-serde"
-version = "0.8.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "911a61637386b789af998ee23f50aa30d5fd7edcec8d6d3dedae5e5815205466"
-dependencies = [
- "bytes",
- "futures-core",
- "futures-sink",
- "pin-project",
 ]
 
 [[package]]

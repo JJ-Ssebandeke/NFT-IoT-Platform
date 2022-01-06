@@ -1,5 +1,6 @@
+mod helpers;
 mod devices;
-mod chainData;
+mod chain_data;
 mod client;
 mod admin;
 
@@ -9,7 +10,7 @@ pub struct Query(devices::DeviceQuery);
 #[derive(MergedObject, Default)]
 pub struct Mutation(client::ClientMutations, admin::AdminMutation);
 #[derive(MergedSubscription, Default)]
-pub struct Subscription(chainData::BlockSubsription);
+pub struct Subscription(chain_data::BlockSubsription);
 
 //build schema
 pub fn build_schema() -> SchemaBuilder<Query,Mutation,Subscription> {
