@@ -1,17 +1,13 @@
-use std::time::Duration;
+pub struct Subscriptions;
 
-use async_graphql::Subscription;
 use futures::Stream;
 use serde_json::{json, Value};
 use tokio_stream::StreamExt;
 use web3::{types::{BlockId, BlockNumber, Block, H256}, transports::Http, api::Eth, Web3, block_on};
 
+#[graphql_subscription]
+impl Subscriptions {
 
-#[derive(Default)]
-pub struct BlockSubsription;
-
-#[Subscription]
-impl BlockSubsription {
     async fn blocks(&self) -> impl Stream<Item = Value> {
 
         let http = Http::new("http://localhost:7545").unwrap();
@@ -29,6 +25,5 @@ impl BlockSubsription {
         })
         
     }
+    
 }
-
-

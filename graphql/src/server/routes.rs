@@ -1,22 +1,21 @@
 // graphql routes
-use crate::schema::{Query, Mutation, Subscription};
-use async_graphql::{http::{playground_source, GraphQLPlaygroundConfig}, Schema};
-use async_graphql_rocket::{GraphQLQuery, GraphQLRequest, GraphQLResponse};
-use rocket::{response::content, State};
 
-pub type DappSchema = Schema<Query, Mutation, Subscription>;
+use rocket::{response::content, State};
+use juniper_rocket::{GraphQLRequest, GraphQLResponse};
+use crate::schema::Schema;
 
 #[get("/")]
 pub fn graphql_playground() -> content::Html<String> {
-    content::Html(playground_source(GraphQLPlaygroundConfig::new("/graphql")))
+    juniper_rocket::playground_source("/graphql", None)
 }
 
-#[get("/graphql?<query..>")]
-pub async fn graphql_query(schema: &State<DappSchema>, query: GraphQLQuery) -> GraphQLResponse {
-    query.execute(schema).await
+#[get("/graphql?<request>")]
+pub fn get_graphql_handler(request: GraphQLRequest, schema: &State<Schema>,) -> GraphQLResponse {
+    request.execute_sync(&*schema, &())
+
 }
 
-#[post("/graphql", data = "<request>", format = "application/json")]
-pub async fn graphql_request(schema: &State<DappSchema>, request: GraphQLRequest) -> GraphQLResponse {
-    request.execute(schema).await
+#[post("/graphql", data="<request>")]
+pub fn post_graphql_handler(request: GraphQLRequest, schema: &State<Schema>,) -> GraphQLResponse {
+    request.execute_sync(&*schema, &())
 }

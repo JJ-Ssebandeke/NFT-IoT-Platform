@@ -1,4 +1,5 @@
 #[macro_use] extern crate rocket;
+#[macro_use] extern crate juniper;
 mod server;
 mod schema;
 
